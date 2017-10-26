@@ -1,22 +1,24 @@
 <div class="home-container">
-  
-    <div class="home-row-container">
-      <h1>JWT Home</h1>
+
+  <div class="home-row-container">
+    <div class="home-column-container">
+      <div class="abc-title">
+        <h1 class="aidans">JWT and Angular</h1>
+      </div>
 
       <div ng-if="!isLoggedIn" class="container">
         <a class="waves-effect waves-light btn-large green" href="/#!/login">Login</a>
         <a class="waves-effect waves-light btn-large blue" href="/#!/register">Register</a>
       </div>
-  
+
       <h7 ng-if="isLoggedIn" class="top-right">welcome <a href="#" ng-click="logout()">{{username}}</a></h7>
-  
-        <div ng-if="isLoggedIn" class="menu-container">
-          <div class="menu-item-container">
-            <img class="fish-pointer" src="app/assets/images/yellow-fish.png" alt="fish pointer" ng-hide="show">
-            <a class="waves-effect waves-yellow menu-item" ng-click="newGame()" ng-mouseover="show=!show" ng-mouseleave="show=!show">Play Game</a>
-          </div>
+
+      <div ng-if="isLoggedIn" class="menu-container">
+        <div class="menu-item-container">
+          <a class="waves-effect waves-yellow menu-item" ng-click="newGame()" ng-mouseover="show=!show" ng-mouseleave="show=!show">Play Game</a>
         </div>
-  
       </div>
+
     </div>
   </div>
+</div>

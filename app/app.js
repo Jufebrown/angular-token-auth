@@ -1,6 +1,6 @@
-`use strict`
+'use strict';
 
-const app = angular.module('JWT', ['ngRoute'])
+const app = angular.module('JWT', ['ngRoute']);
 
 app.config(function($routeProvider) {
 
@@ -24,19 +24,19 @@ app.config(function($routeProvider) {
       resolve: {
         //This function is injected with the AuthService where you'll put your authentication logic
         'auth': function(authFactory) {
-          return authFactory.authenticateRoute()
+          return authFactory.authenticateRoute();
         }
       }
     })
-    .otherwise('/')
+    .otherwise('/');
 
-})
+});
 
 app.run(function($rootScope, $location){
   //If the route change failed due to authentication error, redirect them out
   $rootScope.$on('$routeChangeError', function(event, current, previous, rejection){
     if(rejection === 'Not Authenticated'){
-      $location.url('/')
+      $location.url('/');
     }
-  })
-})
+  });
+});
