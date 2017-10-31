@@ -129,3 +129,178 @@ app.controller('HomeCtrl', function($scope, $location, authFactory) {
 
 });
 ```
+### Setup home.html
+```
+<div class="home-container">
+
+  <div class="home-row-container">
+    <div class="home-column-container">
+      <div>
+        <h1>JWT and Angular</h1>
+      </div>
+
+      <div ng-if="!isLoggedIn" class="container">
+        <a class="waves-effect waves-light btn-large green" href="/#!/login">Login</a>
+        <a class="waves-effect waves-light btn-large blue" href="/#!/register">Register</a>
+      </div>
+
+      <h7 ng-if="isLoggedIn" class="top-right">welcome <a href="#" ng-click="logout()">{{username}}</a></h7>
+
+      <div ng-if="isLoggedIn" class="menu-container">
+        <div class="menu-item-container">
+          <a class="waves-effect waves-yellow menu-item" ng-click="newGame()" ng-mouseover="show=!show" ng-mouseleave="show=!show">Play Game</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+```
+
+### Setup registerCtrl.js
+```
+'use strict';
+
+app.controller('RegisterCtrl', function($scope, $location, authFactory) {
+
+  $scope.register = function() {
+    authFactory.register($scope.user)
+      .then(function(response) {
+        localStorage.setItem('username', $scope.user.username);
+        localStorage.setItem('token', response.data.token);
+        $location.url('/');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+});
+```
+
+### Setup register.html
+```
+<div class="auth-container">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h1>Register</h1>
+        <form ng-submit="register()" novalidate>
+         <div class="form-group">
+           <input type="text" class="form-control" id="username" placeholder="username" ng-model="user.username" required autofocus>
+         </div>
+         <div class="form-group">
+           <input type="password" class="form-control" id="password" placeholder="password" ng-model="user.password" required>
+         </div>
+         <button type="submit" class="btn btn-default">Register</button>
+        </form>
+        <div class="other-auth-option">
+          <small>Already have an account? <a href="/#!/login">Login</a></small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+### Setup loginCtrl.js
+```
+'use strict';
+
+app.controller('LoginCtrl', function($scope, $location, authFactory) {
+
+  $scope.login = function() {
+    authFactory.login($scope.user)
+      .then(function(response) {
+        localStorage.setItem('username', $scope.user.username);
+        localStorage.setItem('token', response.data.token);
+        $location.url('/');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+});
+```
+### Setup login.html
+```
+<div class="auth-container">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h1>Login</h1>
+        <form ng-submit="login()" novalidate>
+         <div class="form-group">
+           <input type="text" class="form-control" id="username" placeholder="username" ng-model="user.username" required autofocus>
+         </div>
+         <div class="form-group">
+           <input type="password" class="form-control" id="password" placeholder="password" ng-model="user.password" required>
+         </div>
+         <button type="submit" class="btn btn-default">Login</button>
+        </form>
+        <div class="other-auth-option">
+          <small>Don't have an account? <a href="/#!/register">Register</a></small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+### Setup authFactory.js
+```
+app.factory('authFactory', function($http, $q) {
+  
+  const baseURL = 'http://localhost:3000/api/v1/auth/';
+  
+  return {
+    // registers an new user with username and password
+    register: function({username, password}) {
+      return $http({
+        method: 'POST',
+        url: baseURL + 'register',
+        data: {username, password},
+        headers: {'Content-Type': 'application/json'}
+      });
+    },
+  
+    // logs in a user with username and password
+    login: function({username, password}) {
+      return $http({
+        method: 'POST',
+        url: baseURL + 'login',
+        data: {username, password},
+        headers: {'Content-Type': 'application/json'}
+      });
+    },
+  
+    // logs user out
+    logout: function() {
+      localStorage.token = '';
+      localStorage.username = '';
+    },
+  
+    // makes sure user token is valid
+    ensureAuthenticated: function(token) {
+      return $http({
+        method: 'GET',
+        url: baseURL + 'user',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token
+        }
+      });
+    },
+  
+    authenticateRoute : function() {
+      if(localStorage.isLoggedIn === 'true'){
+        //If authenticated, return anything you want, probably a user object
+        return true;
+      } else {
+        //Else send a rejection
+        return $q.reject('Not Authenticated');
+      }
+    }
+  
+  };
+});
+```
+## Tutorial End
