@@ -6,3 +6,15 @@ This is a walkthrough for building an angular front-end for an express app that 
 The tutorial for the node/express app is here: https://github.com/Jufebrown/sequelize-token-auth
 
 If you want to clone and run the code in this repo, you will need to run ```npm i``` to install the dependencies.
+
+## Tutorial Start:
+
+### Install Dependencies
+```
+"dependencies": {
+  "angular": "^1.6.6",
+  "angular-route": "^1.6.6",
+  "jquery": "^3.2.1",
+  "materialize-css": "^0.100.2"
+}
+```
