@@ -18,3 +18,10 @@ If you want to clone and run the code in this repo, you will need to run ```npm 
   "materialize-css": "^0.100.2"
 }
 ```
+### Setup folder/file structure
+```
+$ mkdir app partials app/controllers app/factories
+$ touch index.html app/controllers/homeCtrl.js app/controllers/loginCtrl.js app/controllers/registerCtrl.js app/factories/authFactory.js app/app.js partials/home.html partials/login.html partials/register.html
+```
+
+
